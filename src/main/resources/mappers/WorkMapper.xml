@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lee.admin.mapper.WorkMapper">
+
+	<insert id="register" parameterType="com.lee.admin.domain.WorkDTO">
+		INSERT INTO tbl_work(wno, title, content, workdate)
+		VALUES(seq_work.nextval, #{title}, #{content}, #{workdate})
+		<selectKey keyProperty="wno" resultType="Integer" order="AFTER">
+			SELECT seq_work.currval FROM dual
+		</selectKey>
+	</insert>
+	
+	<select id="read" resultType="com.lee.admin.domain.WorkDTO">
+		SELECT *
+		FROM tbl_work
+		WHERE wno = #{wno}
+	</select>
+
+	<update id="modify">
+		UPDATE tbl_work
+		SET title = #{title}, content = #{content}, workdate=#{workdate}
+		WHERE wno = #{wno}
+	</update>
+
+	<select id="listWithPaging" resultType="com.lee.admin.domain.WorkDTO"> 
+		<![CDATA[ 
+		SELECT wno, title, content, workdate
+		FROM (	SELECT /*+ INDEX_DESC(tbl_work IDX_WORK_PK) */
+				rownum rn, wno, title, content, workdate
+				from tbl_work
+				where 
+		]]>
+		<include refid="criteria"></include>
+		<![CDATA[
+				rownum <= #{pageNum} * #{amount}
+			)
+		WHERE rn > (#{pageNum} -1) * #{amount}
+		]]>
+	</select>
+
+	<delete id="delete">
+		DELETE FROM tbl_work
+		WHERE wno=#{wno}
+	</delete>
+
+	<select id="total" resultType="int">
+		SELECT count(*) 
+		FROM tbl_work 
+		WHERE 		
+		<include refid="criteria"></include>	
+		wno > 0
+		
+	</select>
+	
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach collection="typeArr" item="type">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							LOWER(title) like LOWER('%'||#{keyword}||'%')
+						</when>
+						<when test="type == 'C'.toString()">
+							LOWER(content) like LOWER('%'||#{keyword}||'%')
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	
+</mapper>

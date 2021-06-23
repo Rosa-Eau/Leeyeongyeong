@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lee.admin.mapper.WorkAttachMapper">
+	
+<insert id="insert">
+	INSERT INTO tbl_attach(uuid, uploadPath, fileName, filetype, wno)
+	VALUES (#{uuid}, #{uploadPath}, #{fileName}, #{filetype}, #{wno})
+</insert>
+
+<delete id="delete">
+	DELETE FROM tbl_attach
+	WHERE uuid = #{uuid}
+</delete>
+
+<select id="findByWno" resultType="com.lee.admin.domain.AttachFileDTO">
+	SELECT *
+	FROM tbl_attach
+	WHERE wno = #{wno}
+</select>
+
+<delete id="deleteAttachAll">
+	DELETE FROM tbl_attach
+	WHERE wno = #{wno}
+</delete>
+
+<select id="getOldFiles" resultType="com.lee.admin.domain.AttachFileDTO">
+	select * 
+	from tbl_attach 
+	where uploadPath = to_char(sysdate -1, 'yyyy/mm/dd')
+</select>
+
+</mapper>

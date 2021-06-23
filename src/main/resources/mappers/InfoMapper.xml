@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lee.admin.mapper.InfoMapper">
+
+	<insert id="register" parameterType="com.lee.admin.domain.InfoDTO">
+		INSERT INTO tbl_info(tno, title, content)
+		VALUES(seq_info.nextval, #{title}, #{content})
+		<selectKey keyProperty="tno" resultType="Integer" order="AFTER">
+			SELECT seq_info.currval FROM dual
+		</selectKey>
+	</insert>
+	
+	<select id="read" resultType="com.lee.admin.domain.InfoDTO">
+		SELECT *
+		FROM tbl_info
+		WHERE tno = #{tno}
+	</select>
+
+	<update id="modify">
+		UPDATE tbl_info
+		SET title = #{title}, content =
+		#{content}
+		WHERE tno = #{tno}
+	</update>
+
+	<select id="list" resultType="com.lee.admin.domain.InfoDTO"> 
+		<![CDATA[ SELECT * FROM tbl_info WHERE tno > 0 ORDER BY tno ASC]]>
+	</select>
+
+	<delete id="delete">
+		DELETE FROM tbl_info
+		WHERE tno=#{tno}
+	</delete>
+
+</mapper>
