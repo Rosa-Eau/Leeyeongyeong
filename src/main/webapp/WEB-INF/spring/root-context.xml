@@ -22,8 +22,8 @@
 			value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url"
 			value="jdbc:oracle:thin:@localhost:1521:xe"></property>
-		<property name="username" value="leeadmin" />
-		<property name="password" value="leeyeongyeong010" />
+		<property name="username" value="*" />
+		<property name="password" value="*" />
 
 	</bean>
 
@@ -51,8 +51,8 @@
 		class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.gmail.com" /> <!-- gmail을 사용 -->
 		<property name="port" value="587" />
-		<property name="username" value="tory020900@gmail.com" />
-		<property name="password" value="lulqdsfxtndqqbih" />
+		<property name="username" value="*" />
+		<property name="password" value="*" />
 		<property name="javaMailProperties">
 			<props>
 				<prop key="mail.transport.protocol">smtp</prop>
