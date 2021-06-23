@@ -23,7 +23,7 @@ public class MailController {
 //	@RequestMapping(value = "/sending")
 //	public String mailSending(HttpServletRequest request) {
 //
-//		String setTo = "tory020900@gmail.com";
+//		String setTo = "-";
 //		String email = request.getParameter("email"); // 보내 사람 이메일
 //		String subject = request.getParameter("subject"); // 제목
 //		String message = request.getParameter("message"); // 내용
